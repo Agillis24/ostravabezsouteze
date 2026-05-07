@@ -2,24 +2,24 @@ import { TrendingDown, Lock, Users, DollarSign } from 'lucide-react';
 
 export function MarketImpact() {
   return (
-    <section className="py-24 bg-neutral-50">
+    <section className="py-12 md:py-24 bg-neutral-50">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif text-neutral-900 mb-6">
+          <h2 className="text-3xl md:text-5xl font-serif text-neutral-900 mb-6">
             Problém pro trh
           </h2>
           <div className="h-1 w-24 bg-red-900 mx-auto mb-6"></div>
-          <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-neutral-600 max-w-3xl mx-auto">
             Podezření na deformaci hospodářské soutěže a omezení přístupu na trh
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white rounded-lg p-8 border-2 border-neutral-200">
+            <div className="bg-white rounded-lg p-5 md:p-8 border-2 border-neutral-200">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Users className="w-8 h-8 text-green-700" />
             </div>
-            <h3 className="text-2xl font-serif text-center text-neutral-900 mb-4">
+            <h3 className="text-xl md:text-2xl font-serif text-center text-neutral-900 mb-4">
               Otevřený trh
             </h3>
             <ul className="space-y-3 text-sm text-neutral-700">
@@ -50,7 +50,7 @@ export function MarketImpact() {
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Lock className="w-8 h-8 text-red-900" />
             </div>
-            <h3 className="text-2xl font-serif text-center text-neutral-900 mb-4">
+            <h3 className="text-xl md:text-2xl font-serif text-center text-neutral-900 mb-4">
               Uzavřený okruh
             </h3>
             <ul className="space-y-3 text-sm text-neutral-700">
@@ -78,11 +78,11 @@ export function MarketImpact() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg p-8 mb-8 border border-neutral-200">
-          <h3 className="text-2xl font-serif text-neutral-900 mb-6">
+          <div className="bg-white rounded-lg p-5 md:p-8 mb-8 border border-neutral-200">
+            <h3 className="text-xl md:text-2xl font-serif text-neutral-900 mb-6">
             Dopady dlouhodobého uzavřeného modelu
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-red-900/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <TrendingDown className="w-5 h-5 text-red-900" />
@@ -124,8 +124,8 @@ export function MarketImpact() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-red-900 to-red-800 text-white rounded-lg p-8">
-          <h3 className="text-2xl font-serif mb-4">
+          <div className="bg-gradient-to-r from-red-900 to-red-800 text-white rounded-lg p-5 md:p-8">
+            <h3 className="text-xl md:text-2xl font-serif mb-4">
             Právně opatrné vyjádření
           </h3>
           <p className="text-neutral-100 leading-relaxed mb-4">

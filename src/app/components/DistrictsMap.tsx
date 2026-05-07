@@ -1,24 +1,53 @@
 import { MapPin, FileText, TrendingUp } from 'lucide-react';
+import { isrsContracts } from '../data/isrsContracts';
 
-interface District {
+interface DistrictSummary {
   name: string;
   amount: number;
   contracts: number;
   highlight: boolean;
 }
 
-const districts: District[] = [
-  { name: 'Moravská Ostrava a Přívoz', amount: 8500000, contracts: 12, highlight: true },
-  { name: 'Poruba', amount: 12200000, contracts: 18, highlight: true },
-  { name: 'Ostrava-Jih', amount: 6800000, contracts: 9, highlight: true },
-  { name: 'Slezská Ostrava', amount: 4200000, contracts: 7, highlight: false },
-  { name: 'Výškovice', amount: 3100000, contracts: 5, highlight: false },
-  { name: 'Michálkovice', amount: 2800000, contracts: 4, highlight: false },
-  { name: 'Stará Bělá', amount: 1900000, contracts: 3, highlight: false },
-  { name: 'Mariánské Hory a Hulváky', amount: 3500000, contracts: 6, highlight: false },
-];
+function getOstravaDistrictName(publishingParty: string): string | null {
+  const statPrefix = 'Statutární město Ostrava, městský obvod ';
+  const cityPrefix = 'Městský obvod ';
+
+  if (publishingParty.startsWith(statPrefix)) {
+    return publishingParty.slice(statPrefix.length).trim();
+  }
+
+  if (publishingParty.startsWith(cityPrefix)) {
+    return publishingParty.slice(cityPrefix.length).trim();
+  }
+
+  return null;
+}
+
+function buildDistrictSummaries(): DistrictSummary[] {
+  const aggregates = new Map<string, { contracts: number; amount: number }>();
+
+  for (const contract of isrsContracts) {
+    const districtName = getOstravaDistrictName(contract.publishingParty);
+    if (!districtName) continue;
+
+    const current = aggregates.get(districtName) ?? { contracts: 0, amount: 0 };
+    current.contracts += 1;
+    current.amount += contract.amountValue ?? 0;
+    aggregates.set(districtName, current);
+  }
+
+  const sorted = Array.from(aggregates.entries())
+    .map(([name, data]) => ({ name, ...data }))
+    .sort((a, b) => b.amount - a.amount);
+
+  return sorted.map((district, index) => ({
+    ...district,
+    highlight: index < 3,
+  }));
+}
 
 export function DistrictsMap() {
+  const districts = buildDistrictSummaries();
   const totalAmount = districts.reduce((sum, d) => sum + d.amount, 0);
 
   return (
@@ -35,9 +64,9 @@ export function DistrictsMap() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {districts.map((district, index) => (
+          {districts.map((district) => (
             <div
-              key={index}
+              key={district.name}
               className={`bg-white rounded-lg p-6 border-2 transition-all hover:shadow-lg ${
                 district.highlight
                   ? 'border-red-900 shadow-md'
@@ -95,31 +124,13 @@ export function DistrictsMap() {
                   ></div>
                 </div>
                 <div className="text-xs text-neutral-500 mt-1">
-                  {((district.amount / totalAmount) * 100).toFixed(1)}% z celkové sumy
+                  {totalAmount > 0 ? ((district.amount / totalAmount) * 100).toFixed(1) : '0.0'}% z celkové sumy
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="bg-white rounded-lg p-8 border border-neutral-200 shadow-sm">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-red-900/10 rounded-lg flex items-center justify-center flex-shrink-0">
-              <MapPin className="w-6 h-6 text-red-900" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-xl font-serif text-neutral-900 mb-3">
-                Systémový charakter zadávání
-              </h3>
-              <p className="text-neutral-600 leading-relaxed">
-                Z přehledu je patrné, že službu senior taxi / senior expres zadávalo více městských obvodů
-                současně. Vyvstává otázka, proč nedošlo k centralizovanému soutěžení nebo alespoň koordinaci
-                mezi obvody, což by mohlo přinést úspory a větší transparentnost. Model, kdy každý obvod
-                zadává samostatně, ale výsledkem je opakovaně tentýž dodavatel, vyžaduje důkladné prověření.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

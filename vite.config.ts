@@ -17,6 +17,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  base: process.env.GITHUB_ACTIONS ? '/ostravabezsouteze/' : '/',
+
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
@@ -29,6 +31,10 @@ export default defineConfig({
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },
+  },
+
+  server: {
+    allowedHosts: ['.loca.lt'],
   },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.

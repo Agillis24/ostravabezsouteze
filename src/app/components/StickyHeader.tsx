@@ -21,8 +21,6 @@ export function StickyHeader() {
   const navItems = [
     { label: 'O projektu', id: 'o-projektu' },
     { label: 'Smlouvy', id: 'smlouvy' },
-    { label: 'Právní rozbor', id: 'pravni-rozbor' },
-    { label: 'Chronologie', id: 'chronologie' },
   ];
 
   return (
